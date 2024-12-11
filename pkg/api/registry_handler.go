@@ -81,25 +81,42 @@ func DeleteRegistry(registryName int64) error {
 	return nil
 }
 
-func InfoRegistry(registryId int64) error {
+func ViewRegistry(registryId int64) (*registry.GetRegistryOK, error) {
 	ctx, client, err := utils.ContextWithClient()
+	var response = &registry.GetRegistryOK{}
 	if err != nil {
-		return err
+		return response, err
 	}
 
-	response, err := client.Registry.GetRegistry(ctx, &registry.GetRegistryParams{ID: registryId})
+	response, err = client.Registry.GetRegistry(ctx, &registry.GetRegistryParams{ID: registryId})
+
 	if err != nil {
-		return err
+		return response, err
 	}
 	if response.Payload.ID == 0 {
-		return fmt.Errorf("registry is not found")
+		return response, fmt.Errorf("registry is not found")
 	}
 
-	utils.PrintPayloadInJSONFormat(response.Payload)
-	return nil
+	return response, nil
 }
 
-func UpdateRegistry(updateView *CreateRegView, projectID int64) error {
+func GetRegistryResponse(registryId int64) *models.Registry {
+	ctx, client, err := utils.ContextWithClient()
+	if err != nil {
+		return nil
+	}
+	response, err := client.Registry.GetRegistry(ctx, &registry.GetRegistryParams{ID: registryId})
+	if err != nil {
+		return nil
+	}
+	if response.Payload.ID == 0 {
+		return nil
+	}
+
+	return response.GetPayload()
+}
+
+func UpdateRegistry(updateView *models.Registry, projectID int64) error {
 	ctx, client, err := utils.ContextWithClient()
 	if err != nil {
 		return err
