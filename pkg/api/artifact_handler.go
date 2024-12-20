@@ -116,7 +116,7 @@ func ListArtifact(projectName, repoName string, opts ...ListFlags) (artifact.Lis
 func StartScanArtifact(projectName, repoName, reference string) error {
 	ctx, client, err := utils.ContextWithClient()
 	if err != nil {
-		fmt.Errorf("Failed to initialize client context")
+		return fmt.Errorf("Failed to initialize client context")
 	}
 
 	_, err = client.Scan.ScanArtifact(ctx, &scan.ScanArtifactParams{
@@ -151,7 +151,7 @@ func StartScanArtifact(projectName, repoName, reference string) error {
 func StopScanArtifact(projectName, repoName, reference string) error {
 	ctx, client, err := utils.ContextWithClient()
 	if err != nil {
-		fmt.Errorf("Failed to initialize client context")
+		return fmt.Errorf("Failed to initialize client context")
 	}
 
 	_, err = client.Scan.StopScanArtifact(ctx, &scan.StopScanArtifactParams{
@@ -186,7 +186,7 @@ func StopScanArtifact(projectName, repoName, reference string) error {
 func DeleteTag(projectName, repoName, reference, tag string) error {
 	ctx, client, err := utils.ContextWithClient()
 	if err != nil {
-		fmt.Errorf("Failed to initialize client context")
+		return fmt.Errorf("Failed to initialize client context")
 	}
 
 	_, err = client.Artifact.DeleteTag(ctx, &artifact.DeleteTagParams{
@@ -256,7 +256,7 @@ func ListTags(projectName, repoName, reference string) (*artifact.ListTagsOK, er
 func CreateTag(projectName, repoName, reference, tagName string) error {
 	ctx, client, err := utils.ContextWithClient()
 	if err != nil {
-		fmt.Errorf("Failed to initialize client context")
+		return fmt.Errorf("Failed to initialize client context")
 	}
 	_, err = client.Artifact.CreateTag(ctx, &artifact.CreateTagParams{
 		ProjectName:    projectName,
