@@ -69,6 +69,7 @@ harbor help
 		HealthCommand(),
 		schedule.Schedule(),
 		labels.Labels(),
+		PermissionsCommand(),
 	)
 
 	return root
